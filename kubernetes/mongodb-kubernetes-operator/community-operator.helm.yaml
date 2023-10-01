@@ -1,0 +1,28 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: community-operator
+  namespace: mongodb-kubernetes-operator
+spec:
+  chart:
+    spec:
+      chart: community-operator
+      version: ">=0.8.2"
+      sourceRef:
+        kind: HelmRepository
+        name: mongodb-charts
+        namespace: mongodb-kubernetes-operator
+  interval: 1m0s
+  targetNamespace: mongodb-kubernetes-operator
+  releaseName: community-operator
+  install:
+    createNamespace: false
+    # crds: "Skip"
+
+  values:
+    community-operator-crds:
+      enabled: false
+
+    operator:
+      watchNamespace: "*"

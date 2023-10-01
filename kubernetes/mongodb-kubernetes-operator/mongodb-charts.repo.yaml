@@ -1,0 +1,11 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: mongodb-charts
+  namespace: mongodb-kubernetes-operator
+spec:
+  interval: 5m0s
+  timeout: 1m0s
+  url: https://mongodb.github.io/helm-charts
+
