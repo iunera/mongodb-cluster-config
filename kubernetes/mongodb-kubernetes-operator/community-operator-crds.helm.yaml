@@ -18,4 +18,4 @@ spec:
   releaseName: community-operator-crds
   install:
     createNamespace: false
-    # crds: "Skip"
+    crds: "CreateReplace"
