@@ -1,0 +1,115 @@
+---
+apiVersion: mongodbcommunity.mongodb.com/v1
+kind: MongoDBCommunity
+metadata:
+  name: mongodb-database
+  namespace: fahrbar-common
+spec:
+  members: 3
+  type: ReplicaSet
+  version: "6.0.5"
+  security:
+    authentication:
+      modes: ["SCRAM"]
+  users:
+    # https://www.mongodb.com/docs/manual/reference/built-in-roles/#mongodb-authrole-clusterManager
+    - name: clusteradmin
+      db: admin
+      passwordSecretRef:
+        name: clusteradmin-password
+      roles:
+        - name: clusterAdmin
+          db: admin
+        - name: userAdminAnyDatabase
+          db: admin
+        - name: dbAdminAnyDatabase
+          db: admin
+        - name: dbOwner
+          db: occupancyapi_dev_v1
+        - name: dbOwner
+          db: occupancyapi_staging_v1
+        - name: dbOwner
+          db: occupancyapi_prod_v1
+      scramCredentialsSecretName: clusteradmin
+
+    - name: occupancyapi-dev-v1-admin
+      db: occupancyapi_dev_v1
+      passwordSecretRef:
+        name: occupancyapi-dev-v1-admin-password
+      roles:
+        - name: dbOwner
+          db: occupancyapi_dev_v1
+      scramCredentialsSecretName: occupancyapidevv1
+
+    - name: occupancyapi-staging-v1-admin
+      db: occupancyapi_staging_v1
+      passwordSecretRef:
+        name: occupancyapi-staging-v1-admin-password
+      roles:
+        - name: dbOwner
+          db: occupancyapi_staging_v1
+      scramCredentialsSecretName: occupancyapistagingv1
+
+    - name: occupancyapi-prod-v1-admin
+      db: occupancyapi_prod_v1
+      passwordSecretRef:
+        name: occupancyapi-prod-v1-admin-password
+      roles:
+        - name: dbOwner
+          db: occupancyapi_prod_v1
+      scramCredentialsSecretName: occupancyapiprodv1
+
+
+  additionalMongodConfig:
+    storage.wiredTiger.engineConfig.journalCompressor: zlib
+  additionalConnectionStringConfig:
+    readPreference: primary
+
+  statefulSet:
+    spec:
+      volumeClaimTemplates:
+        - metadata:
+            name: data-volume
+          spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: 100Gi
+        - metadata:
+            name: logs-volume
+          spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: 10Gi
+      template:
+        spec:
+          containers:
+          - name: mongod
+            resources:
+              limits:
+                memory: 500Mi
+              requests:
+                cpu: 200m
+                memory: 200Mi
+          - name: mongodb-agent
+            resources:
+              limits:
+                cpu: 200m
+                memory: 250Mi
+              requests:
+                cpu: 200m
+                memory: 200Mi
+          initContainers:
+          - name: mongod-posthook
+            resources:
+              limits:
+                cpu: 50m
+                memory: 100Mi
+          - name: mongodb-agent-readinessprobe
+            resources:
+              limits:
+                cpu: 50m
+                memory: 100Mi
