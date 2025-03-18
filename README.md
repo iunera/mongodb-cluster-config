@@ -91,7 +91,24 @@ Finally we are ready to deploy the 3 node mongodb cluster with `SCRAM Auth`, `Mo
 
 For more info check the https://github.com/mongodb/mongodb-kubernetes-operator/tree/master/config/samples or [RTFM](https://github.com/mongodb/mongodb-kubernetes-operator/tree/master/docs).
 
-
-
 # License
-[Open Compensation Token License, Version 0.20](https://github.com/open-compensation-token-license/license/blob/main/LICENSE.md)
+## [Open Compensation Token License, Version 0.20](https://github.com/open-compensation-token-license/license/blob/main/LICENSE.md)
+
+```
+Licensed under the OPEN COMPENSATION TOKEN LICENSE (the "License").
+
+You may not use this file except in compliance with the License.
+
+You may obtain a copy of the License at
+<https://github.com/open-compensation-token-license/license/blob/main/LICENSE.md>
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either expressed or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+@octl.sid: 1b6f7a5d-8dcf-44f1-b03a-77af04433496
+```
+* Why we did [choose the OCTL](https://www.license-token.com/why-octl)
+* Why we [do NOT apply Apache 2.0 License] (https://www.license-token.com/wiki/the-downside-of-apache-license-and-why-i-never-would-use-it)?
